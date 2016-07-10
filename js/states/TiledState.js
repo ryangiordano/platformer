@@ -13,9 +13,9 @@ Platformer.TiledState = function () {
         "checkpoint": Platformer.Checkpoint.prototype.constructor,
         "coin": Platformer.Coin.prototype.constructor,
         "score": Platformer.Score.prototype.constructor,
-        // "lives": Platformer.Lives.prototype.constructor,
-        // "life_item":Platformer.LifeItem.prototype.constructor,
-        // "fireball_item":Platformer.FireballItem.prototype.constructor,
+        "lives": Platformer.Lives.prototype.constructor,
+        "life_item":Platformer.LifeItem.prototype.constructor,
+        "fireball_item":Platformer.FireballItem.prototype.constructor
         // "boss": Platformer.Boss.prototype.constructor
     };
 };

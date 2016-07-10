@@ -1,6 +1,7 @@
 {
     "assets": {
         "map_tiles": { "type": "image", "source": "assets/images/tiles_spritesheet2.png" },
+        "map_tiles1": {"type": "image", "source":"assets/images/halftiles.png"},
         "player_spritesheet": { "type": "spritesheet", "source": "assets/images/large.png", "frame_width": 72, "frame_height": 96, "frames": 13, "margin": 0, "spacing": 0 },
         "slime_image": { "type": "image", "source": "assets/images/slime.png" },
         "fly_spritesheet": { "type": "spritesheet", "source": "assets/images/fly_spritesheet.png", "frame_width": 37, "frame_height": 20, "frames": 2 },
@@ -9,8 +10,8 @@
         "coin_image": { "type": "image", "source": "assets/images/coin.png" },
         "fireball_image": { "type": "image", "source": "assets/images/fireball.png" },
         "life_item_image": { "type": "image", "source": "assets/images/life_item.png" },
-
-        "level_tilemap": { "type": "tilemap", "source": "assets/maps/level3map.json" }
+        "fireball_item_image": { "type": "image", "source": "assets/images/fireball_item.png" },
+        "level_tilemap": { "type": "tilemap", "source": "assets/maps/level1_map.json" }
     },
     "groups": [
         "goals",
@@ -24,6 +25,6 @@
     ],
     "map": {
         "key": "level_tilemap",
-        "tilesets": ["map_tiles"]
+        "tilesets": ["map_tiles","map_tiles1"]
     }
 }

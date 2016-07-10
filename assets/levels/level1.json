@@ -7,7 +7,7 @@
         "goal_image": { "type": "image", "source": "assets/images/goal.png" },
         "checkpoint_image": { "type": "image", "source": "assets/images/checkpoint.png" },
         "coin_image": { "type": "image", "source": "assets/images/coin.png" },
-        "level_tilemap": { "type": "tilemap", "source": "assets/maps/level1.1_map.json" }
+        "level_tilemap": { "type": "tilemap", "source": "assets/maps/level1map.json" }
     },
     "groups": [
         "goals",
