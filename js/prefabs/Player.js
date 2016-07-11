@@ -2,8 +2,10 @@ var Platformer = Platformer || {};
 
 Platformer.Player = function(game_state, position, properties){
   "use strict";
+
   Platformer.Prefab.call(this, game_state, position, properties);
   this.walking_speed = +properties.walking_speed;
+    this.enemyDie = this.game.add.audio('enemyDie');
   this.jumping_speed = +properties.jumping_speed;
   this.bouncing = +properties.bouncing;
   this.score = +localStorage.player_score || 0;
@@ -77,6 +79,17 @@ Platformer.Player.prototype.hit_enemy = function(player, enemy){
   "use strict";
   if(enemy.body.touching.up){
     this.score += enemy.score;
+    var emitter = this.game.add.emitter(enemy.x, enemy.y, 100);
+    emitter.makeParticles('enemy_die_sparkle');
+    emitter.minParticleSpeed.setTo(-200, -200);
+    emitter.maxParticleSpeed.setTo(100, 100);
+    emitter.gravity = -1000;
+
+    emitter.start(true, 700, null, 25);
+     //enable particle animation of all particles
+     emitter.forEach(function(singleParticle) {    singleParticle.animations.add('enemy_die_sparkle');    singleParticle.animations.play('enemy_die_sparkle', 12, true);
+      });
+      this.enemyDie.play();
     enemy.kill();
     //hop off an enemy's head
     player.body.velocity.y = -this.jumping_speed;

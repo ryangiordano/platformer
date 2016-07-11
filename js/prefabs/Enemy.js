@@ -4,6 +4,7 @@ Platformer.Enemy = function(game_state, position, properties){
   "use strict";
   Platformer.Prefab.call(this, game_state, position, properties);
   this.walking_speed = +properties.walking_speed;
+
   this.walking_distance = +properties.walking_distance;
   this.score = +properties.score;
 

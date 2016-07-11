@@ -42,11 +42,12 @@ Platformer.TiledState.prototype.init = function (level_data) {
         this.map.addTilesetImage(tileset.name, level_data.map.tilesets[tileset_index]);
         tileset_index += 1;
     }, this);
+
 };
 
 Platformer.TiledState.prototype.create = function () {
     "use strict";
-    var group_name, object_layer, collision_tiles;
+    var group_name, object_layer, collision_tiles,platforms;
 
     // create map layers
     this.layers = {};
@@ -54,6 +55,7 @@ Platformer.TiledState.prototype.create = function () {
         this.layers[layer.name] = this.map.createLayer(layer.name);
         if (layer.properties.collision) { // collision layer
             collision_tiles = [];
+
             layer.data.forEach(function (data_row) { // find tiles used in the layer
                 data_row.forEach(function (tile) {
                     // check if it's a valid tile index and isn't already in the list
@@ -62,8 +64,16 @@ Platformer.TiledState.prototype.create = function () {
                     }
                 }, this);
             }, this);
-            this.map.setCollision(collision_tiles, true, layer.name);
+            this.map.setCollision(collision_tiles, true, "collision");
+
+            platforms = this.map.searchTileIndex(17, 0, false,"collision");
+            console.log(platforms);
+                  platforms.collideDown = false;
+                  platforms.collideLeft = false;
+                  platforms.collideRight = false;
+                  platforms.collideUp = true;
         }
+
     }, this);
     // resize the world to be the size of the current layer
     this.layers[this.map.layer.name].resizeWorld();
