@@ -11,7 +11,7 @@
         "fireball_image": { "type": "image", "source": "assets/images/fireball.png" },
         "life_item_image": { "type": "image", "source": "assets/images/life_item.png" },
         "fireball_item_image": { "type": "image", "source": "assets/images/fireball_item.png" },
-        "berry_sparkle":{"type":"spritesheet","source":"assets/images/berry_sparkle.png","frame_width":32,"frame_height":32,"frames":7},
+        "berry_sparkle":{"type":"spritesheet","source":"assets/images/berry_sparkle.png","frame_width":32,"frame_height":32,"frames":11},
         "enemy_die_sparkle":{"type":"spritesheet","source":"assets/images/enemydiesparkle.png","frame_width":32,"frame_height":32,"frames":5},
         "enemyDie":{"type":"audio","source":"assets/audio/enemy.wav"},
         "getBerry":{"type":"audio", "source":"assets/audio/berry.wav"},
