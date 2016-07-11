@@ -7,7 +7,7 @@
         "fly_spritesheet": { "type": "spritesheet", "source": "assets/images/fly_spritesheet.png", "frame_width": 37, "frame_height": 20, "frames": 2 },
         "goal_image": { "type": "image", "source": "assets/images/goal.png" },
         "checkpoint_image": { "type": "image", "source": "assets/images/checkpoint.png" },
-        "coin_image": { "type": "image", "source": "assets/images/berry.png" },
+        "coin_image": { "type": "spritesheet", "source": "assets/images/berry.png","frame_width":32,"frame_height":32,"frames":8 },
         "fireball_image": { "type": "image", "source": "assets/images/fireball.png" },
         "life_item_image": { "type": "image", "source": "assets/images/life_item.png" },
         "fireball_item_image": { "type": "image", "source": "assets/images/fireball_item.png" },
@@ -15,6 +15,7 @@
         "enemy_die_sparkle":{"type":"spritesheet","source":"assets/images/enemydiesparkle.png","frame_width":32,"frame_height":32,"frames":5},
         "enemyDie":{"type":"audio","source":"assets/audio/enemy.wav"},
         "getBerry":{"type":"audio", "source":"assets/audio/berry.wav"},
+        "jump":{"type":"audio", "source":"assets/audio/jump.ogg"},
         "level_tilemap": { "type": "tilemap", "source": "assets/maps/level1_map.json" }
     },
     "groups": [

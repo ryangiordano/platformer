@@ -10,6 +10,9 @@ Platformer.Coin = function(game_state, position, properties){
   this.body.immovable = true;
   this.body.allowGravity = false;
   this.anchor.setTo(0.5);
+  console.log(this);
+  this.animations.add("berry");
+  this.animations.play("berry",12,true);
 };
 
 Platformer.Coin.prototype = Object.create(Platformer.Prefab.prototype);
@@ -31,7 +34,7 @@ Platformer.Coin.prototype.collect_coin = function (coin, player){
 
   emitter.start(true, 1000, null, 10);
    //enable particle animation of all particles
-   emitter.forEach(function(singleParticle) {    singleParticle.animations.add('berry_sparkle');    singleParticle.animations.play('berry_sparkle', 12, false);
+   emitter.forEach(function(singleParticle) {    singleParticle.animations.add('berry_sparkle');    singleParticle.animations.play('berry_sparkle', 30, false);
     });
 
    this.getBerry.play();

@@ -6,6 +6,7 @@ Platformer.Player = function(game_state, position, properties){
   Platformer.Prefab.call(this, game_state, position, properties);
   this.walking_speed = +properties.walking_speed;
     this.enemyDie = this.game.add.audio('enemyDie');
+    this.jump = this.game.add.audio('jump');
   this.jumping_speed = +properties.jumping_speed;
   this.bouncing = +properties.bouncing;
   this.score = +localStorage.player_score || 0;
@@ -64,6 +65,7 @@ Platformer.Player.prototype.update = function () {
   //jump only if touching a  tile
   if(this.cursors.up.isDown && this.body.blocked.down){
     this.body.velocity.y = -this.jumping_speed;
+              this.jump.play();
   }
   if(!this.body.blocked.down){
         this.animations.play("jumping");

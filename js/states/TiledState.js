@@ -1,6 +1,6 @@
 var Platformer = Platformer || {};
 
-Platformer.TiledState = function () {
+Platformer.TiledState = function() {
     "use strict";
     Phaser.State.call(this);
 
@@ -14,16 +14,16 @@ Platformer.TiledState = function () {
         "coin": Platformer.Coin.prototype.constructor,
         "score": Platformer.Score.prototype.constructor,
         "lives": Platformer.Lives.prototype.constructor,
-        "life_item":Platformer.LifeItem.prototype.constructor,
-        "fireball_item":Platformer.FireballItem.prototype.constructor
-        // "boss": Platformer.Boss.prototype.constructor
+        "life_item": Platformer.LifeItem.prototype.constructor,
+        "fireball_item": Platformer.FireballItem.prototype.constructor
+            // "boss": Platformer.Boss.prototype.constructor
     };
 };
 
 Platformer.TiledState.prototype = Object.create(Phaser.State.prototype);
 Platformer.TiledState.prototype.constructor = Platformer.TiledState;
 
-Platformer.TiledState.prototype.init = function (level_data) {
+Platformer.TiledState.prototype.init = function(level_data) {
     "use strict";
     var tileset_index;
     this.level_data = level_data;
@@ -38,40 +38,54 @@ Platformer.TiledState.prototype.init = function (level_data) {
     // create map and set tileset
     this.map = this.game.add.tilemap(level_data.map.key);
     tileset_index = 0;
-    this.map.tilesets.forEach(function (tileset) {
+    this.map.tilesets.forEach(function(tileset) {
         this.map.addTilesetImage(tileset.name, level_data.map.tilesets[tileset_index]);
         tileset_index += 1;
     }, this);
 
 };
 
-Platformer.TiledState.prototype.create = function () {
+Platformer.TiledState.prototype.create = function() {
     "use strict";
-    var group_name, object_layer, collision_tiles,platforms;
+    var group_name, object_layer, collision_tiles, platforms;
 
     // create map layers
     this.layers = {};
-    this.map.layers.forEach(function (layer) {
+    this.map.layers.forEach(function(layer) {
         this.layers[layer.name] = this.map.createLayer(layer.name);
         if (layer.properties.collision) { // collision layer
             collision_tiles = [];
 
-            layer.data.forEach(function (data_row) { // find tiles used in the layer
-                data_row.forEach(function (tile) {
+            layer.data.forEach(function(data_row) { // find tiles used in the layer
+                data_row.forEach(function(tile) {
                     // check if it's a valid tile index and isn't already in the list
-                    if (tile.index > 0 && collision_tiles.indexOf(tile.index) === -1) {
-                        collision_tiles.push(tile.index);
+                    if (tile.index > 0 && collision_tiles.indexOf(tile.index) === -1 && tile.index != 17) {
+                        // collision_tiles.push(tile.index);
+                        tile.collideLeft = true;
+                        tile.collideRight = true;
+                        tile.collideDown = true;
+                        tile.collideUp = true;
+                        tile.faceTop = true;
+                        tile.faceBottom = true;
+                        tile.faceLeft = true;
+                        tile.faceRight = true;
+                        console.log(tile)
+                    } else if (tile.index === 17) {
+                        tile.collideLeft = false;
+                        tile.collideRight = false;
+                        tile.collideDown = false;
+                        tile.collideUp = true;
+                        tile.faceTop = true;
+                        tile.faceBottom = false;
+                        tile.faceLeft = false;
+                        tile.faceRight = false;
                     }
                 }, this);
             }, this);
-            this.map.setCollision(collision_tiles, true, "collision");
-
-            platforms = this.map.searchTileIndex(17, 0, false,"collision");
-            console.log(platforms);
-                  platforms.collideDown = false;
-                  platforms.collideLeft = false;
-                  platforms.collideRight = false;
-                  platforms.collideUp = true;
+            // this.map.setCollisionByExclusion([17], true, "collision");
+            // platforms = this.map.searchTileIndex(17, 0, false,"collision");
+            // this.map.setCollision(platforms, true);
+            // console.log(platforms);
         }
 
     }, this);
@@ -80,7 +94,7 @@ Platformer.TiledState.prototype.create = function () {
 
     // create groups
     this.groups = {};
-    this.level_data.groups.forEach(function (group_name) {
+    this.level_data.groups.forEach(function(group_name) {
         this.groups[group_name] = this.game.add.group();
     }, this);
 
@@ -96,12 +110,15 @@ Platformer.TiledState.prototype.create = function () {
     this.game.camera.follow(this.prefabs.player);
 };
 
-Platformer.TiledState.prototype.create_object = function (object) {
+Platformer.TiledState.prototype.create_object = function(object) {
     "use strict";
-    var object_y,position, prefab;
+    var object_y, position, prefab;
     // tiled coordinates starts in the bottom left corner
-    object_y = (object.gid)? object.y -(this.map.tileHeight/2): object.y +(object.height/2);
-    position = {"x": object.x + (this.map.tileHeight / 2), "y": object.y - (this.map.tileHeight / 2)};
+    object_y = (object.gid) ? object.y - (this.map.tileHeight / 2) : object.y + (object.height / 2);
+    position = {
+        "x": object.x + (this.map.tileHeight / 2),
+        "y": object.y - (this.map.tileHeight / 2)
+    };
     // create object according to its type
     if (this.prefab_classes.hasOwnProperty(object.type)) {
         prefab = new this.prefab_classes[object.type](this, position, object.properties);
@@ -109,30 +126,38 @@ Platformer.TiledState.prototype.create_object = function (object) {
     this.prefabs[object.name] = prefab;
 };
 
-Platformer.TiledState.prototype.restart_level = function () {
+Platformer.TiledState.prototype.restart_level = function() {
     "use strict";
-	// restart the game only if the checkpoint was not reached
+    // restart the game only if the checkpoint was not reached
     if (this.prefabs.checkpoint.checkpoint_reached) {
         this.prefabs.player.x = this.prefabs.checkpoint.x;
         this.prefabs.player.y = this.prefabs.checkpoint.y;
     } else {
-      localStorage.player_lives = this.prefabs.player.lives;
+        localStorage.player_lives = this.prefabs.player.lives;
         this.game.state.restart(true, false, this.level_data);
     }
 };
-Platformer.TiledState.prototype.game_over = function(){
-  "use strict";
-  localStorage.clear();
-  this.game.state.start("BootState", true, false, "assets/levels/level1.json");
+Platformer.TiledState.prototype.game_over = function() {
+    "use strict";
+    localStorage.clear();
+    this.game.state.start("BootState", true, false, "assets/levels/level1.json");
 };
-Platformer.TiledState.prototype.init_hud = function(){
-  "use strict";
-  var score_position, score, lives_position, lives;
-  score_position = new Phaser.Point(20,20);
-  score = new Platformer.Score(this, score_position, {"text":"Score: 0", "group": "hud" });
-  this.prefabs["score"] = score;
+Platformer.TiledState.prototype.init_hud = function() {
+    "use strict";
+    var score_position, score, lives_position, lives;
+    score_position = new Phaser.Point(20, 20);
+    score = new Platformer.Score(this, score_position, {
+        "text": "Score: 0",
+        "group": "hud"
+    });
+    this.prefabs["score"] = score;
 
-  lives_position = new Phaser.Point(this.game.world.width * 0.65, 20);
-  lives = new Platformer.Lives(this, lives_position, {"texture": "player_spritesheet","group":"hud", "frame" : 3, "spacing": 16});
-  this.prefabs["lives"] = lives;
+    lives_position = new Phaser.Point(this.game.world.width * 0.65, 20);
+    lives = new Platformer.Lives(this, lives_position, {
+        "texture": "player_spritesheet",
+        "group": "hud",
+        "frame": 3,
+        "spacing": 16
+    });
+    this.prefabs["lives"] = lives;
 };
