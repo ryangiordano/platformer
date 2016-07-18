@@ -3,6 +3,8 @@ var Platformer = Platformer ||{};
 Platformer.GroundEnemy = function(game_state, position, properties){
   "use strict";
   Platformer.Enemy.call(this, game_state, position, properties);
+  this.animations.add("walking",[0,1,2,2,1],12,true);
+  this.animations.play("walking");
 };
 
 Platformer.GroundEnemy.prototype = Object.create(Platformer.Enemy.prototype);
@@ -10,6 +12,7 @@ Platformer.GroundEnemy.prototype.constructor = Platformer.GroundEnemy;
 
 Platformer.GroundEnemy.update = function(){
   "use strict";
+
   Platformer.Enemy.prototype.update.call(this);
 
   if(this.body.blocked.down && !this.has_tile_to_walk()){
@@ -27,4 +30,4 @@ Platformer.GroundEnemy.prototype.has_tile_to_walk = function(){
   //getTileWorldXY returns the tile in a given position
   next_tile = map.getTileWorldXY(position_to_check.x, position_to_check.y, map.tileWidth, map.tileHeight, "collision");
   return next_tile !== null;
-}; 
+};

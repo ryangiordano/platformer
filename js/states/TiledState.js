@@ -13,9 +13,12 @@ Platformer.TiledState = function() {
         "checkpoint": Platformer.Checkpoint.prototype.constructor,
         "coin": Platformer.Coin.prototype.constructor,
         "score": Platformer.Score.prototype.constructor,
-        "lives": Platformer.Lives.prototype.constructor,
+        // "lives": Platformer.Lives.prototype.constructor,
+        "hearts":Platformer.Hearts.prototype.constructor,
         "life_item": Platformer.LifeItem.prototype.constructor,
-        "fireball_item": Platformer.FireballItem.prototype.constructor
+        "fireball_item": Platformer.FireballItem.prototype.constructor,
+        "fireball": Platformer.Fireball.prototype.constructor,
+        "swipe": Platformer.Swipe.prototype.constructor
             // "boss": Platformer.Boss.prototype.constructor
     };
 };
@@ -47,6 +50,16 @@ Platformer.TiledState.prototype.init = function(level_data) {
 
 Platformer.TiledState.prototype.create = function() {
     "use strict";
+    //play music
+    this.music = game.add.audio('levelMusic');
+    this.music.volume -=.6;
+    this.music.loop = true;
+
+    if(!this.playing){
+      // this.music.play();
+      this.playing = true;
+    };
+
     var group_name, object_layer, collision_tiles, platforms;
 
     // create map layers
@@ -59,7 +72,7 @@ Platformer.TiledState.prototype.create = function() {
             layer.data.forEach(function(data_row) { // find tiles used in the layer
                 data_row.forEach(function(tile) {
                     // check if it's a valid tile index and isn't already in the list
-                    if (tile.index > 0 && collision_tiles.indexOf(tile.index) === -1 && tile.index != 17) {
+                    if (tile.index > 0 && collision_tiles.indexOf(tile.index) === -1) {
                         // collision_tiles.push(tile.index);
                         tile.collideLeft = true;
                         tile.collideRight = true;
@@ -69,8 +82,10 @@ Platformer.TiledState.prototype.create = function() {
                         tile.faceBottom = true;
                         tile.faceLeft = true;
                         tile.faceRight = true;
-                        console.log(tile)
-                    } else if (tile.index === 17) {
+
+                    }
+                    if (tile.index >= 20) {
+
                         tile.collideLeft = false;
                         tile.collideRight = false;
                         tile.collideDown = false;
@@ -82,10 +97,6 @@ Platformer.TiledState.prototype.create = function() {
                     }
                 }, this);
             }, this);
-            // this.map.setCollisionByExclusion([17], true, "collision");
-            // platforms = this.map.searchTileIndex(17, 0, false,"collision");
-            // this.map.setCollision(platforms, true);
-            // console.log(platforms);
         }
 
     }, this);
@@ -140,11 +151,11 @@ Platformer.TiledState.prototype.restart_level = function() {
 Platformer.TiledState.prototype.game_over = function() {
     "use strict";
     localStorage.clear();
-    this.game.state.start("BootState", true, false, "assets/levels/level1.json");
+    this.game.state.start("BootState", true, false, "assets/levels/level3.json");
 };
 Platformer.TiledState.prototype.init_hud = function() {
     "use strict";
-    var score_position, score, lives_position, lives;
+    var score_position, score, hearts_position, hearts;
     score_position = new Phaser.Point(20, 20);
     score = new Platformer.Score(this, score_position, {
         "text": "Score: 0",
@@ -152,12 +163,17 @@ Platformer.TiledState.prototype.init_hud = function() {
     });
     this.prefabs["score"] = score;
 
-    lives_position = new Phaser.Point(this.game.world.width * 0.65, 20);
-    lives = new Platformer.Lives(this, lives_position, {
-        "texture": "player_spritesheet",
+    hearts_position = new Phaser.Point(20, 60);
+    hearts = new Platformer.Hearts(this, hearts_position, {
+        "texture": "heart",
         "group": "hud",
         "frame": 3,
         "spacing": 16
     });
-    this.prefabs["lives"] = lives;
+// hearts.animations.add('beat');
+// hearts.animations.play('beat');
+//         console.log(hearts.animations.add('beat'));
+    this.prefabs["hearts"] = hearts;
+
+
 };
