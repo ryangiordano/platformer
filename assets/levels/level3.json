@@ -2,7 +2,7 @@
     "assets": {
         "map_tiles": { "type": "image", "source": "assets/images/tiles_spritesheet2.png" },
         "map_tiles1": {"type": "image", "source":"assets/images/halftiles.png"},
-        "player_spritesheet": { "type": "spritesheet", "source": "assets/images/large.png", "frame_width": 72, "frame_height": 96, "frames": 15, "margin": 0, "spacing": 0 },
+        "player_spritesheet": { "type": "spritesheet", "source": "assets/images/large.png", "frame_width": 72, "frame_height": 96, "frames": 20, "margin": 0, "spacing": 0 },
         "slime_image": { "type": "spritesheet", "source": "assets/images/slime.png","frame_width":64,"frame_height": 56, "frames":3,"margin":0,"spacing":0},
         "fly_spritesheet": { "type": "spritesheet", "source": "assets/images/fly_spritesheet.png", "frame_width": 64, "frame_height": 64, "frames": 3 },
         "coin_image": { "type": "spritesheet", "source": "assets/images/berry.png","frame_width":32,"frame_height":32,"frames":8 },
