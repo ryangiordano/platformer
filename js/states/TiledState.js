@@ -142,7 +142,7 @@ Platformer.TiledState.prototype.restart_level = function() {
     // restart the game only if the checkpoint was not reached
     if (this.prefabs.checkpoint.checkpoint_reached) {
         this.prefabs.player.x = this.prefabs.checkpoint.x;
-        this.prefabs.player.y = this.prefabs.checkpoint.y;
+        this.prefabs.player.y = this.prefabs.checkpoint.y-30;
     } else {
         localStorage.player_lives = this.prefabs.player.lives;
         this.game.state.restart(true, false, this.level_data);

@@ -58,9 +58,6 @@ Platformer.Hearts.prototype.update_hearts = function(){
   heart = this.hearts[this.hearts.length -1];//because of zero index
   if(this.game_state.prefabs.player.hearts < this.hearts.length){
     //the player died, so we have to kill the last heart..
-    heart.kill();
-    this.dead_heart = heart;
-    this.hearts.pop();
     var lastHeart = this.hearts.length -1;
     this.emitter.emitX = this.hearts[lastHeart].position.x;
     this.emitter.emitY = this.hearts[lastHeart].position.y;
@@ -76,6 +73,10 @@ Platformer.Hearts.prototype.update_hearts = function(){
         singleParticle.animations.add('blooddrop');
         singleParticle.animations.play('blooddrop', 12, false);
     });
+    heart.kill();
+    this.dead_heart = heart;
+    this.hearts.pop();
+
   }else{
     //the player received another heart
     if(!this.dead_heart){

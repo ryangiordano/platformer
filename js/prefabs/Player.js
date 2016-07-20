@@ -18,7 +18,7 @@ Platformer.Player = function(game_state, position, properties) {
     this.attack_rate = +properties.attack_rate;
     this.attack_speed = +properties.attack_speed;
 
-    // this.addChild(this.game_state.groups.swipe);
+
 
     this.knockback = false;
     this.distance = 75;
@@ -26,6 +26,9 @@ Platformer.Player = function(game_state, position, properties) {
 
     this.game_state.game.physics.arcade.enable(this);
     this.body.collideWorldBounds = true;
+    this.body.width=72;
+    this.body.offset.x=36;
+    this.body.tilePadding.x = 10;
 
     this.direction = "RIGHT";
 
@@ -33,12 +36,16 @@ Platformer.Player = function(game_state, position, properties) {
     this.animations.add("jumping", [5], 12, true);
     this.animations.add("running", [6, 7, 8, 9, 10, 11, 12], 16, true);
     this.animations.add("gothit", [13, 14], 12, true);
-    this.animations.add("swipe", [15,16,17,18,19,], 30, false);
+    this.animations.add("swipe", [15,16,17,18,19,19,19,19,19], 30, false);
     this.anchor.setTo(0.5);
     this.cursors = this.game_state.game.input.keyboard.createCursorKeys();
 
     this.swipe_timer = this.game_state.game.time.create();
     this.swipe_timer.loop(Phaser.Timer.SECOND / this.attack_rate, this.swipe, this);
+    this.swipe_animation_playing=false;
+
+    console.log(this);
+
 
     this.jumpTimer = 0;
 
@@ -61,7 +68,7 @@ Platformer.Player.prototype.update = function() {
     this.game_state.game.physics.arcade.overlap(this, this.game_state.groups.invincible_enemies, this.die, null, this);
     this.game_state.game.physics.arcade.overlap(this, this.game_state.groups.enemy_fireballs, this.hit, null, this);
 
-    if (this.cursors.right.isDown && this.body.velocity.x >= 0) {
+    if (!this.swipe_animation_playing.isPlaying && this.cursors.right.isDown && this.body.velocity.x >= 0) {
         //moving right now
         // this.body.velocity.x = this.walking_speed;
         this.body.velocity.x = 350;
@@ -69,14 +76,14 @@ Platformer.Player.prototype.update = function() {
         //this sets the sprite walking right
         this.animations.play("running");
         this.scale.setTo(1, 1);
-    } else if (this.cursors.left.isDown && this.body.velocity.x <= 0) {
+    } else if (!this.swipe_animation_playing.isPlaying && this.cursors.left.isDown && this.body.velocity.x <= 0) {
         //move left
         // this.body.velocity.x = -this.walking_speed;
         this.body.velocity.x = -350;
         this.direction = "LEFT";
         this.animations.play("running");
         this.scale.setTo(-1, 1);
-    } else if(!this.game_state.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)){
+    } else if(!this.swipe_animation_playing.isPlaying){
         //stop
 
         this.body.velocity.x = 0;
@@ -109,7 +116,7 @@ Platformer.Player.prototype.update = function() {
     // }else if(this.jumpTimer != 0) {
     //       // reset jumptimer since the key is no longer being held
     //       this.jumpTimer =0;  }
-    if (!this.body.blocked.down && !this.knockback) {
+    if (!this.body.blocked.down && !this.knockback && !this.swipe_animation_playing.isPlaying) {
         this.animations.play("jumping");
     }
 
@@ -121,11 +128,22 @@ Platformer.Player.prototype.update = function() {
         if (!this.swipe_timer.running) {
 
             this.swipe();
+
+            console.log(this.activeSwipe.x)
             this.swipe_timer.start();
         }
     } else {
         this.swipe_timer.stop(false);
     }
+    if(this.swipe_timer.running){
+      if(this.direction == "RIGHT"){
+        this.activeSwipe.x = this.x+50;
+        this.activeSwipe.y = this.y
+      }else{
+      this.activeSwipe.x = this.x-50;
+      this.activeSwipe.y = this.y;
+      }
+    };
 };
 Platformer.Player.prototype.knockbackAnimation = function(player, left, right) {
     this.animations.play("gothit", 12, true);
@@ -255,18 +273,17 @@ Platformer.Player.prototype.shoot = function() {
 Platformer.Player.prototype.swipe = function() {
     "use strict";
     this.swipe_sound.play();
-    var swipe, swipe_position, swipe_properties;
+    this.swipe_animation_playing = this.animations.play("swipe");
+    this.activeSwipe;
+    var swipe_position, swipe_properties;
     //get first dead swipe from the pool
 
-    swipe_position = this.direction == "RIGHT" ? new Phaser.Point(this.x+60, this.y) : new Phaser.Point(this.x-60, this.y);
+    swipe_position = this.direction == "RIGHT" ? new Phaser.Point(this.x+50, this.y+5) : new Phaser.Point(this.x-50, this.y+5);
         swipe_properties = {
             "texture": "swipe_image",
             "group": "swipe",
             "direction": this.direction,
             "speed": this.attack_speed
         };
-        swipe = new Platformer.Swipe(this.game_state, swipe_position, swipe_properties);
-
+        this.activeSwipe = new Platformer.Swipe(this.game_state, swipe_position, swipe_properties);
 };
-
-// if the player is able to shoot and the shooting button is pressed, start shooting

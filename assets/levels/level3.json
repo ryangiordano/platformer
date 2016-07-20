@@ -2,12 +2,12 @@
     "assets": {
         "map_tiles": { "type": "image", "source": "assets/images/tiles_spritesheet2.png" },
         "map_tiles1": {"type": "image", "source":"assets/images/halftiles.png"},
-        "player_spritesheet": { "type": "spritesheet", "source": "assets/images/large.png", "frame_width": 72, "frame_height": 96, "frames": 20, "margin": 0, "spacing": 0 },
+        "player_spritesheet": { "type": "spritesheet", "source": "assets/images/large.png", "frame_width": 144, "frame_height": 96, "frames": 20, "margin": 0, "spacing": 0 },
         "slime_image": { "type": "spritesheet", "source": "assets/images/slime.png","frame_width":64,"frame_height": 56, "frames":3,"margin":0,"spacing":0},
         "fly_spritesheet": { "type": "spritesheet", "source": "assets/images/fly_spritesheet.png", "frame_width": 64, "frame_height": 64, "frames": 3 },
         "coin_image": { "type": "spritesheet", "source": "assets/images/berry.png","frame_width":32,"frame_height":32,"frames":8 },
         "fireball_image": { "type": "image", "source": "assets/images/fireball.png" },
-        "swipe_image":{"type":"spritesheet","source":"assets/images/swipe.png","frame_width":64,"frame_height":92,"frames":9},
+        "swipe_image":{"type":"spritesheet","source":"assets/images/swipe.png","frame_width":64,"frame_height":92,"frames":14},
         "life_item_image": { "type": "image", "source": "assets/images/life_item.png" },
         "fireball_item_image": { "type": "image", "source": "assets/images/fireball_item.png" },
         "berry_sparkle":{"type":"spritesheet","source":"assets/images/berry_sparkle.png","frame_width":32,"frame_height":32,"frames":11},
@@ -24,8 +24,9 @@
         "goal":{"type":"audio","source":"assets/audio/goal.ogg"},
         "hurt":{"type":"audio","source":"assets/audio/hurt.wav"},
         "levelMusic":{"type":"audio","source":"assets/audio/music.ogg"},
-        "swipe_sound":{"type":"audio","source":"assets/audio/swipe.ogg"},
+        "swipe_sound":{"type":"audio","source":"assets/audio/swipe.wav"},
         "jump":{"type":"audio", "source":"assets/audio/jump.ogg"},
+        "land":{"type":"audio", "source":"assets/audio/land.wav"},
         "level_tilemap": { "type": "tilemap", "source": "assets/maps/level1_map.json" }
     },
     "groups": [

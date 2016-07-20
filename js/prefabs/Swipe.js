@@ -6,7 +6,7 @@ Platformer.Swipe = function (game_state, position, properties) {
 
     this.direction = properties.direction;
     this.speed = +properties.speed;
-    this.animations.add("swipe_image",[0,1,2,3,4,5,6,7,8],60, false);
+    this.animations.add("swipe_image",[13,13,13,13,13,13,13,1,2,3,4,5,6,7,8,9,10,11,12,13],60, false);
     this.animations.play('swipe_image');
     this.game_state.game.physics.arcade.enable(this);
     this.body.allowGravity = false;
@@ -31,5 +31,4 @@ Platformer.Swipe.prototype.constructor = Platformer.Swipe;
 
 Platformer.Swipe.prototype.update = function () {
     "use strict";
-    console.log('weeee swipe!');
   };
