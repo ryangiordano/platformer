@@ -36,7 +36,8 @@ Platformer.Player = function(game_state, position, properties) {
     this.animations.add("jumping", [5], 12, true);
     this.animations.add("running", [6, 7, 8, 9, 10, 11, 12], 16, true);
     this.animations.add("gothit", [13, 14], 12, true);
-    this.animations.add("swipe", [15,16,17,18,19,19,19,19,19], 30, false);
+    this.animations.add("swipe1", [15,16,17,18,19,19,19,19,19], 30, false);
+    this.animations.add("swipe", [20,21,22,23,24,25,25,25,25], 30, false);
     this.anchor.setTo(0.5);
     this.cursors = this.game_state.game.input.keyboard.createCursorKeys();
 
