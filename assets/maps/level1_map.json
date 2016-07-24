@@ -1896,6 +1896,52 @@
                  "width":39,
                  "x":5964.5,
                  "y":595.5
+                }, 
+                {
+                 "height":37,
+                 "id":199,
+                 "name":"berry_coin",
+                 "properties":
+                    {
+                     "group":"items",
+                     "score":"50",
+                     "texture":"berry_coin"
+                    },
+                 "propertytypes":
+                    {
+                     "group":"string",
+                     "score":"string",
+                     "texture":"string"
+                    },
+                 "rotation":0,
+                 "type":"berry_coin",
+                 "visible":true,
+                 "width":39,
+                 "x":1418.5,
+                 "y":1484.5
+                }, 
+                {
+                 "height":37,
+                 "id":201,
+                 "name":"silver_medal",
+                 "properties":
+                    {
+                     "group":"items",
+                     "score":"50",
+                     "texture":"silver_medal"
+                    },
+                 "propertytypes":
+                    {
+                     "group":"string",
+                     "score":"string",
+                     "texture":"string"
+                    },
+                 "rotation":0,
+                 "type":"silver_medal",
+                 "visible":true,
+                 "width":39,
+                 "x":2250.5,
+                 "y":1496.5
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -1904,7 +1950,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":199,
+ "nextobjectid":202,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tileheight":64,

@@ -15,9 +15,9 @@ Platformer.Player = function(game_state, position, properties) {
     this.score = +localStorage.player_score || 0;
     this.lives = +localStorage.player_lives || +properties.lives;
     this.hearts = +localStorage.player_hearts || +properties.hearts;
-    this.attack_rate = +properties.attack_rate;
+    this.attack_rate = 2;
     this.attack_speed = +properties.attack_speed;
-
+    console.log(this.attack_rate);
 
 
     this.knockback = false;
@@ -36,13 +36,13 @@ Platformer.Player = function(game_state, position, properties) {
     this.animations.add("jumping", [5], 12, true);
     this.animations.add("running", [6, 7, 8, 9, 10, 11, 12], 16, true);
     this.animations.add("gothit", [13, 14], 12, true);
-    this.animations.add("swipe1", [15,16,17,18,19,19,19,19,19,18,17,16,15], 30, false);
-    this.animations.add("swipe", [20,21,22,23,24,25,25,25,25,24,23,22,21,20], 30, false);
+    this.animations.add("swipe1", [15,16,17,18,19,19,19,19,19], 30, false);
+    this.animations.add("swipe", [20,21,22,23,24,25,25,25,25,24,23,22,21,2], 30, false);
     this.anchor.setTo(0.5);
     this.cursors = this.game_state.game.input.keyboard.createCursorKeys();
 
     this.swipe_timer = this.game_state.game.time.create();
-    this.swipe_timer.loop(Phaser.Timer.SECOND / this.attack_rate, this.swipe, this);
+    // this.swipe_timer.loop(Phaser.Timer.SECOND / this.attack_rate, this.swipe, this);
     this.swipe_animation_playing=false;
 
 
@@ -128,17 +128,19 @@ Platformer.Player.prototype.update = function() {
 
             this.swipe();
             this.swipe_timer.start();
+            console.log(this.swipe_timer);
         }
     } else {
-        this.swipe_timer.stop(false);
+        this.swipe_timer.stop(true);
     }
     if(this.swipe_timer.running){
       if(this.direction == "RIGHT"){
+        console.log("timing");
         this.activeSwipe.x = this.x+50;
-        this.activeSwipe.y = this.y
+        this.activeSwipe.y = this.y+5
       }else{
       this.activeSwipe.x = this.x-50;
-      this.activeSwipe.y = this.y;
+      this.activeSwipe.y = this.y+5;
       }
     };
 
@@ -161,7 +163,7 @@ Platformer.Player.prototype.knockbackAnimation = function(player, left, right) {
         if (player.body.x >= this.knockedTo) {
             this.knockedTo = 0;
             this.knockback = false;
-            this.game.time.events.add(2000, function() {
+            this.game.time.events.add(500, function() {
 
                 player.body.sprite.alpha = 1;
                 this.hitLeft = false;
@@ -178,7 +180,7 @@ Platformer.Player.prototype.knockbackAnimation = function(player, left, right) {
         if (player.body.x <= this.knockedTo) {
             this.knockedTo = 0;
             this.knockback = false;
-            this.game.time.events.add(2000, function() {
+            this.game.time.events.add(500, function() {
                 player.body.sprite.alpha = 1;
 
                 this.hitLeft = false;
@@ -276,7 +278,7 @@ Platformer.Player.prototype.swipe = function() {
     var swipe_position, swipe_properties;
     //get first dead swipe from the pool
 
-    swipe_position = this.direction == "RIGHT" ? new Phaser.Point(this.x, this.y+5) : new Phaser.Point(this.x, this.y+5);
+    swipe_position = this.direction == "RIGHT" ? new Phaser.Point(this.x, this.y) : new Phaser.Point(this.x, this.y);
         swipe_properties = {
             "texture": "swipe_image",
             "group": "swipe",

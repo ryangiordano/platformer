@@ -16,8 +16,10 @@ Platformer.TiledState = function() {
         // "lives": Platformer.Lives.prototype.constructor,
         "hearts":Platformer.Hearts.prototype.constructor,
         "life_item": Platformer.LifeItem.prototype.constructor,
-        "fireball_item": Platformer.FireballItem.prototype.constructor,
-        "fireball": Platformer.Fireball.prototype.constructor,
+        // "fireball_item": Platformer.FireballItem.prototype.constructor,
+        "berry_coin": Platformer.BerryCoin.prototype.constructor,
+        "silver_medal": Platformer.SilverMedal.prototype.constructor,
+        // "fireball": Platformer.Fireball.prototype.constructor,
         "swipe": Platformer.Swipe.prototype.constructor
             // "boss": Platformer.Boss.prototype.constructor
     };
@@ -51,7 +53,7 @@ Platformer.TiledState.prototype.init = function(level_data) {
 Platformer.TiledState.prototype.create = function() {
     "use strict";
     //play music
-    this.music = game.add.audio('levelMusic');
+    this.music = game.add.audio('level_2_Music');
     this.music.volume -=.6;
     this.music.loop = true;
 
