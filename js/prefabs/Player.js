@@ -36,16 +36,14 @@ Platformer.Player = function(game_state, position, properties) {
     this.animations.add("jumping", [5], 12, true);
     this.animations.add("running", [6, 7, 8, 9, 10, 11, 12], 16, true);
     this.animations.add("gothit", [13, 14], 12, true);
-    this.animations.add("swipe1", [15,16,17,18,19,19,19,19,19], 30, false);
-    this.animations.add("swipe", [20,21,22,23,24,25,25,25,25], 30, false);
+    this.animations.add("swipe1", [15,16,17,18,19,19,19,19,19,18,17,16,15], 30, false);
+    this.animations.add("swipe", [20,21,22,23,24,25,25,25,25,24,23,22,21,20], 30, false);
     this.anchor.setTo(0.5);
     this.cursors = this.game_state.game.input.keyboard.createCursorKeys();
 
     this.swipe_timer = this.game_state.game.time.create();
     this.swipe_timer.loop(Phaser.Timer.SECOND / this.attack_rate, this.swipe, this);
     this.swipe_animation_playing=false;
-
-    console.log(this);
 
 
     this.jumpTimer = 0;
@@ -129,8 +127,6 @@ Platformer.Player.prototype.update = function() {
         if (!this.swipe_timer.running) {
 
             this.swipe();
-
-            console.log(this.activeSwipe.x)
             this.swipe_timer.start();
         }
     } else {
@@ -145,6 +141,7 @@ Platformer.Player.prototype.update = function() {
       this.activeSwipe.y = this.y;
       }
     };
+
 };
 Platformer.Player.prototype.knockbackAnimation = function(player, left, right) {
     this.animations.play("gothit", 12, true);
@@ -274,12 +271,12 @@ Platformer.Player.prototype.shoot = function() {
 Platformer.Player.prototype.swipe = function() {
     "use strict";
     this.swipe_sound.play();
-    this.swipe_animation_playing = this.animations.play("swipe");
+    this.swipe_animation_playing = this.animations.play("swipe1");
     this.activeSwipe;
     var swipe_position, swipe_properties;
     //get first dead swipe from the pool
 
-    swipe_position = this.direction == "RIGHT" ? new Phaser.Point(this.x+50, this.y+5) : new Phaser.Point(this.x-50, this.y+5);
+    swipe_position = this.direction == "RIGHT" ? new Phaser.Point(this.x, this.y+5) : new Phaser.Point(this.x, this.y+5);
         swipe_properties = {
             "texture": "swipe_image",
             "group": "swipe",

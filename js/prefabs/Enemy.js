@@ -7,7 +7,7 @@ Platformer.Enemy = function(game_state, position, properties){
     this.enemyDie = this.game.add.audio('enemyDie');
   this.walking_distance = +properties.walking_distance;
   this.score = +properties.score;
-
+  this.life = +properties.life;
   //saving previous x to keep track of walked distance
   this.previous_x =this.x;
 
@@ -58,6 +58,9 @@ Platformer.Enemy.prototype.getShot = function(enemy, fireball){
 
 Platformer.Enemy.prototype.getSwiped = function(enemy, swipe){
   this.score += enemy.score;
+  this.life -=1;
+  this.invuln=true;
+  this.body.alpha = 0.5;
   var emitter = this.game.add.emitter(enemy.x, enemy.y, 100);
   emitter.makeParticles('enemy_die_sparkle');
   emitter.minParticleSpeed.setTo(-200, -200);
@@ -70,5 +73,9 @@ Platformer.Enemy.prototype.getSwiped = function(enemy, swipe){
       singleParticle.animations.play('enemy_die_sparkle', 12, false);
   });
   this.enemyDie.play();
-  enemy.kill();
+  if(this.life <=0){
+      enemy.kill();
+  }
+
+
 }
